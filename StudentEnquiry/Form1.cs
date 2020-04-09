@@ -20,11 +20,28 @@ namespace StudentEnquiry
     {
       InitializeComponent();
     }
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      // set up.
+      programs = new SortedList<string, string[]>
+      {
+        {"Information Technology", ITPrograms },
+        {"Engineeing", EngineeringPrograms }
+      };
+
+      cbxDepartment.Items.AddRange(programs.Keys.ToArray());
+      cbxDepartment.SelectedIndex = 0;
+
+      cbxHowHeard.Items.Add("Another Student");
+      cbxHowHeard.Items.Add("Another School");
+      cbxHowHeard.Items.Add("Internet Search");
+    }
 
     private void btnSubmit_Click(object sender, EventArgs e)
     {
       List<string> errors = new List<string>();
 
+      // data validation
       if (cbxDepartment.SelectedIndex == -1)
       {
         errors.Add("Select a Dempartment.");
@@ -46,12 +63,14 @@ namespace StudentEnquiry
         return;
       }
 
+      // Enter the summary.
       StringBuilder summaryBuilder = new StringBuilder();
 
       summaryBuilder.Append("Summary");
       summaryBuilder.Append("\n\nDepartment:\n");
       summaryBuilder.Append(cbxDepartment.Text);
       summaryBuilder.Append("\n\nPrograms:\n");
+
       foreach (object degree in lstDegree.SelectedItems) 
       {
         summaryBuilder.Append(degree + "\n");
@@ -67,24 +86,11 @@ namespace StudentEnquiry
       this.Close();
     }
 
-    private void Form1_Load(object sender, EventArgs e)
-    {
-      programs = new SortedList<string, string[]>
-      {
-        {"Information Technology", ITPrograms },
-        {"Engineeing", EngineeringPrograms }
-      };
-
-      cbxDepartment.Items.AddRange(programs.Keys.ToArray());
-      cbxDepartment.SelectedIndex = 0;
-
-      cbxHowHeard.Items.Add("Another Student");
-      cbxHowHeard.Items.Add("Another School");
-      cbxHowHeard.Items.Add("Internet Search");
-    }
+    
 
     private void cbxDepartment_SelectedIndexChanged(object sender, EventArgs e)
     {
+      // setting the listbox based on what's in the combobox
       lstDegree.ClearSelected();
       lstDegree.Items.Clear();
       string department = cbxDepartment.Text;
@@ -98,6 +104,7 @@ namespace StudentEnquiry
 
     private void lstDegree_SelectedIndexChanged(object sender, EventArgs e)
     {
+      // ♫♪♪ adding feedback, adding adding feedback. You take the input and give the user feedback. ♫♪♪
       int numSelected = lstDegree.SelectedItems.Count;
       lblDegreeCount.Text = $"{numSelected} selected";
     }
